@@ -1,6 +1,6 @@
 # sim2real-pendulum — a tiny real-to-sim-to-real loop in PyTorch
 
-**New here? Start with [START HERE.md](START%20HERE.md).** Your working folder is
+**New here? Start with [Learning/START HERE.md](Learning/START%20HERE.md).** Your working folder is
 `~/Desktop/Projects/sim2real-pendulum`; its `Sim2Real Guide/` folder contains the video,
 transcript, and learning shortcuts.
 
