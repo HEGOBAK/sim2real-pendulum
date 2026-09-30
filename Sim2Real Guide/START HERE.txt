@@ -1,0 +1,9 @@
+START IN THE PROJECT FOLDER
+
+Desktop > Projects > sim2real-pendulum > START HERE.md
+
+Double-click Open Project.command in this guide folder to open the project in VS Code.
+Then open START HERE.md in the editor. It contains your first M0 session and everyday work cycle.
+
+This folder contains the updated video and transcript, GitHub and PyTorch tutorial shortcuts, and untouched starter backups.
+Only edit the working Python files in the parent project folder. Leave the ZIP and Original Desktop Starter unchanged.

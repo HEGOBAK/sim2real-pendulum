@@ -1,5 +1,9 @@
 # sim2real-pendulum — a tiny real-to-sim-to-real loop in PyTorch
 
+**New here? Start with [START HERE.md](START%20HERE.md).** Your working folder is
+`~/Desktop/Projects/sim2real-pendulum`; its `Sim2Real Guide/` folder contains the video,
+transcript, and learning shortcuts.
+
 **Goal (2–3 evenings):** use a small amount of "real robot" data to calibrate a differentiable
 simulator, train a controller in simulation, and show it transfers to the "real" system better
 than a controller trained in an uncalibrated simulator.

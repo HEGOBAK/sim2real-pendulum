@@ -7,3 +7,7 @@ __pycache__/
 *.egg-info/
 build/
 dist/
+
+# Keep untouched local backups out of the working repository.
+Sim2Real Guide/Original Desktop Starter/
+Sim2Real Guide/sim2real-pendulum-original.zip
