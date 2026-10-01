@@ -13,12 +13,12 @@ The guide's ZIP and **Original Desktop Starter** are untouched backups. Write co
 
 ## Learn one milestone at a time
 
-Begin with [M0 — PyTorch basics](M0.md). The later files are placeholders, not assigned work. After finishing M0, ask for a review and explicitly request the M1 guide. We will prepare each later guide only when you ask.
+M0 is complete. Begin [M1 — Differentiable simulator](M1.md), one checkpoint at a time. M2–M5 guides remain placeholders until requested after the preceding milestone.
 
 | Guide | Instruction status |
 |---|---|
-| [M0](M0.md) | Ready to begin; your learning is not marked complete |
-| [M1](M1.md) | Waiting for your request |
+| [M0](M0.md) | Completed; practice and explanations reviewed |
+| [M1](M1.md) | Guide ready; implementation not started |
 | [M2](M2.md) | Waiting for your request |
 | [M3](M3.md) | Waiting for your request |
 | [M4](M4.md) | Waiting for your request |
@@ -38,6 +38,20 @@ Begin with [M0 — PyTorch basics](M0.md). The later files are placeholders, not
 `real_robot.py` is a software stand-in for hardware. Use its public functions, not its hidden parameters. Better transfer is a hypothesis to test, not a guaranteed result.
 
 Run `pytest -q` for the simulator checks. Before M1 is implemented, **two `NotImplementedError` failures are expected**. M0 practice does not make those tests pass.
+
+## Speed-run learning path
+
+Use concrete assignments, short syntax explanations, and saved-file review. Save and say “check”; no copying code into chat is needed. You write the implementations; the assistant supplies hints and runs relevant checks. Keep your own WORKLOG format, with brief results and corrections. Do one checkpoint per exchange.
+
+| Milestone | Focus | Finish evidence |
+|---|---|---|
+| M1 | One physics step, then batched rollout | Period, gradient, and batch checks pass |
+| M2 | Fit positive length/damping parameters with trajectory MSE and Adam | Initial/final loss, fitted values, loss plot |
+| M3 | Use the supplied small policy and learn through M1 dynamics | Nominal and calibrated policies; training costs |
+| M4 | Evaluate both policies under the same reference conditions | Final-100-step mean absolute errors |
+| M5 | Explain actual results and reproducible commands | Comparison table, one plot, concise explanation, GitHub checkpoint |
+
+Skip more image-classification tutorials, custom DataLoaders, CNNs, GPU setup, RL libraries, and stretch goals unless an actual task needs them. CPU is sufficient to begin. Better transfer is a hypothesis; report measured outcomes even if calibration does not improve them. Detailed M2–M5 guides will be prepared only when requested.
 
 ## Your everyday cycle
 

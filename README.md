@@ -17,7 +17,7 @@ Treat it like hardware — you may only call its functions, not read its paramet
 Integrate with **semi-implicit Euler**: ω ← ω + dt·θ'',  then θ ← θ + dt·ω.
 
 ## Milestones (tick them off in order)
-- [ ] **M0 — PyTorch basics (~2 h).** Official "Learn the Basics" tutorial: tensors, autograd, `nn.Module`, optimizers.
+- [x] **M0 — PyTorch basics (~2 h).** Official "Learn the Basics" tutorial: tensors, autograd, `nn.Module`, optimizers.
 - [ ] **M1 — Differentiable simulator (`sim.py`).** Implement `step` and `rollout` with torch ops only (no numpy), batched over trajectories.
       Check: `pytest -q` passes (small-angle period ≈ 2π√(L/g); gradients reach L and b).
 - [ ] **M2 — Real-to-sim calibration (`calibrate.py`).** Start from the nominal guess L = 1.0, b = 0.1.
