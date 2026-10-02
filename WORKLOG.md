@@ -75,7 +75,50 @@ Assistant comments (corrections):
 ---------------------------------------------------------------------------------
 
 ## M2 — System Identification
-Status: Not started
+Status: In Progress
+
+ADAM (optimizer) : an efficient, popular algorithm used to train deep learning models and update neural network weights
+
+MSE → measures error
+loss.backward() → calculates gradients
+Adam's optimizer.step() → updates the trainable log parameters
+
+Doubt: How does exp(0) = 1? Does it mean that log_L and log_b are the actual parameters that the gradient will affect, and L and b are just numbers that are the result of some operations on log_L and log_b? So we are tuning log_L and log_b? Why not just turn all negatives into 0 and keep the positives, or just square the parameters? Why does it have to be exp/log?
+
+L always has to be positive and not zero!
+Optimizer can change L values to negative so I need new parameters where gradients act on.
+Use exp/log with parameters being log_L and log_b.
+
+Trainable value: log_L → exp(log_L) → physical length L
+
+th, om tensors have diff values for each experiments so their shape is [n,] but L and b is same for all so it is just []
+
+
+I tested both to prove they are equivalent : 
+ -> loss = torch.nn.functional.mse_loss(pred, Y)
+ -> loss = (pred - Y).square().mean()
+
+Doubt: how does loss = (pred-Y)... allows traceback?
+
+
+Questions: 
+1. Why optimize logarithms instead of directly optimizing L and b?
+-> Because optimizing L and b will result in L and b potentially becoming negatives or zero which will later cause problem in the acceleration equation and it does not make physical sense as well so we use exp(log) method to ensure safe inputs. 
+
+2. How does trajectory loss connect back to those trainable parameters?
+-> Backpropagation and chain rule through tensors
+
+Assistant comments (corrections):
+- Adam can optimize any suitable trainable tensors, not only neural-network weights. Here it updates log_L and log_b using their gradients.
+- exp(x) means e raised to x, so exp(0) = e^0 = 1. Log is its inverse: exp(log(0.1)) = 0.1. L and b remain tensors during training, calculated from the trainable log parameters.
+- Your positivity explanation is mostly correct: L must be greater than zero because the equations divide by it. Damping b can physically be zero (no damping); our exponential parameterization restricts it to positive values. Direct optimization risks invalid values but does not necessarily produce them.
+- Exp/log is a choice, not the only method. Clamping negatives to zero gives zero gradients in the negative region and permits L = 0; squaring also permits zero and has zero derivative there. Exponentiation is smooth and strictly positive mathematically, though extreme values can overflow or underflow numerically.
+- Your shapes are correct: (n,) holds one state value per experiment; scalar shape () or torch.Size([]) holds one shared physical parameter, not an empty tensor.
+- Both MSE expressions are equivalent with the default mean reduction. Subtraction, .square(), and .mean() are PyTorch tensor operations, so they record a computation graph even without an explicit torch prefix.
+- Your chain-rule answer is correct; the full path is log parameters → exp → L and b → rollout angles → trajectory MSE. backward() follows it in reverse and fills log_L.grad and log_b.grad; Adam then updates those parameters.
+- Trajectory MSE averages squared angle errors over all experiments and time steps, not just the final angles. The reviewed run reduced MSE from about 0.02783 to 0.00010067, with fitted L ≈ 1.1997 and b ≈ 0.3510. These are fitted estimates, not proof of exact hidden values.
+
+---------------------------------------------------------------------------------
 
 ## M3 — Controller Training
 Status: Not started

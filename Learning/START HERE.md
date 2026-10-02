@@ -13,13 +13,13 @@ The guide's ZIP and **Original Desktop Starter** are untouched backups. Write co
 
 ## Learn one milestone at a time
 
-M0 is complete. Begin [M1 — Differentiable simulator](M1.md), one checkpoint at a time. M2–M5 guides remain placeholders until requested after the preceding milestone.
+M0 is complete and the M1 implementation has passed review. Begin [M2 — System identification](M2.md), one checkpoint at a time. M3–M5 guides remain placeholders until requested after the preceding milestone.
 
 | Guide | Instruction status |
 |---|---|
 | [M0](M0.md) | Completed; practice and explanations reviewed |
-| [M1](M1.md) | Guide ready; implementation not started |
-| [M2](M2.md) | Waiting for your request |
+| [M1](M1.md) | Implementation reviewed; simulator checks passed |
+| [M2](M2.md) | Guide ready; calibration not implemented yet |
 | [M3](M3.md) | Waiting for your request |
 | [M4](M4.md) | Waiting for your request |
 | [M5](M5.md) | Waiting for your request |
