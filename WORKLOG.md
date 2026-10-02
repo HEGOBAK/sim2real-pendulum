@@ -37,7 +37,42 @@ Assistant comments (corrections):
 ---------------------------------------------------------------------------------
 
 ## M1 — Differentiable Simulator
-Status: Not started
+Status: Completed
+
+Rollout is a forward timelapse of step. Each step predicts the next angle and angular velocity given current state and return them so it can be use for the next loop (becoming the next "current state")
+
+Rollout is somewhat like a simulator, it takes in a current state and returns the 'future' states back. You can pass in multiple pendulums at once and it will return the future states for each of them, how many future states depend on the shape of u. 
+
+Doubt: I don't understand how come u is the motor torque of each pendulums at the current state but its shape is [n,t] not just [n] like the angle and velocity of the current state when all of them were initially pass into rollout funciton. Why does it requires time. 
+
+At the end, the rollout returns shape[n, T] similar to u but it stores the angles not the motor torque
+
+Semi-implicit Euler uses updated velocity to calculate next angel not old velocity
+
+Results:
+Batch check passed; gradients: tensor(-0.0090) tensor(-0.0119)
+
+Questions: 
+1. Why does the angle update use om_next?
+-> The next angle depends on the angular velocity at that "time and position" but the angular velocity depends on the angular acceleration at that "time and position" so we must update accordingly in that order
+
+2. What does U[:, t] select?
+-> the column at t, basically u in that timestamp of all pendulums
+
+3. Why must the simulator preserve gradient connections to L and b?
+-> Because the neural network need to learn from those gradient connections when backpropagating
+
+Assistant comments (corrections):
+- Your rollout explanation is correct: each step's output becomes the next step's input. This implementation returns angles only; it updates velocities internally without returning their history.
+- Distinguish lowercase u from uppercase U: step receives u with shape (n,), the torque for one time step. rollout receives U with shape (n, T), the full torque schedule for T steps. Starting angles/velocities need only shape (n,) because the simulator computes their future values; motor torques are externally supplied inputs and need to be specified for every step.
+- Example: U = [[1, 0, -1], [2, 2, 0]] supplies 3 successive torques for each of 2 pendulums. U[:, 0] gives [1, 2], then U[:, 1] gives [0, 2]. For constant torque, repeat the same value across the row. T is the number of steps, not seconds; duration is T * DT.
+- U[:, t] explanation is correct. Capital U is the whole schedule; lowercase u is the selected column.
+- For natural motion without a motor push, use U = torch.zeros(1, 50)
+- Using om_next is the semi-implicit Euler method we chose, not a requirement of all physics calculations. Acceleration is calculated from the current state, then velocity is updated, then angle uses that new velocity.
+- Gradient connections let M2 calculate how trajectory error changes with L and b so an optimizer can fit them; no neural network is needed for M2. In M3, gradients through the simulator will help train the controller network.
+- The period and gradient tests and the separate batch check passed in the reviewed run. With these clarifications, the M1 implementation is ready for M2.
+
+---------------------------------------------------------------------------------
 
 ## M2 — System Identification
 Status: Not started
