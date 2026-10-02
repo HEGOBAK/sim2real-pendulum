@@ -1,7 +1,7 @@
 # Start here — your Sim2Real Pendulum project
 
 Your working folder is **Desktop → Projects → sim2real-pendulum**.
-Everything you need to begin is here. All milestones are still yours to complete.
+M0–M4 are complete. M5 turns your verified work into the final report.
 
 ## First, get oriented
 
@@ -13,7 +13,7 @@ The guide's ZIP and **Original Desktop Starter** are untouched backups. Write co
 
 ## Learn one milestone at a time
 
-M0–M3 implementations have been reviewed. Begin [M4 — Reference-system evaluation](M4.md) as an independent assignment. The M5 guide remains a placeholder until requested.
+M0–M4 have been reviewed. Begin [M5 — Results and README](M5.md) to document the verified results.
 
 | Guide | Instruction status |
 |---|---|
@@ -21,8 +21,8 @@ M0–M3 implementations have been reviewed. Begin [M4 — Reference-system evalu
 | [M1](M1.md) | Implementation reviewed; simulator checks passed |
 | [M2](M2.md) | Calibration implemented and reviewed |
 | [M3](M3.md) | Controller training implemented and reviewed |
-| [M4](M4.md) | Guide ready; initial comparison verified |
-| [M5](M5.md) | Waiting for your request |
+| [M4](M4.md) | Completed; comparison saved and reviewed |
+| [M5](M5.md) | Guide ready; final write-up next |
 
 ## How a small step contributes
 
@@ -37,7 +37,7 @@ M0–M3 implementations have been reviewed. Begin [M4 — Reference-system evalu
 
 `real_robot.py` is a software stand-in for hardware. Use its public functions, not its hidden parameters. Better transfer is a hypothesis to test, not a guaranteed result.
 
-Run `pytest -q` for the simulator checks. Before M1 is implemented, **two `NotImplementedError` failures are expected**. M0 practice does not make those tests pass.
+Run `pytest -q` for the simulator checks. Both simulator checks passed in the reviewed implementation.
 
 ## Speed-run learning path
 
@@ -51,7 +51,7 @@ Use concrete assignments, short syntax explanations, and saved-file review. Save
 | M4 | Evaluate both policies under the same reference conditions | Final-100-step mean absolute errors |
 | M5 | Explain actual results and reproducible commands | Comparison table, one plot, concise explanation, GitHub checkpoint |
 
-Skip more image-classification tutorials, custom DataLoaders, CNNs, GPU setup, RL libraries, and stretch goals unless an actual task needs them. CPU is sufficient to begin. Better transfer is a hypothesis; report measured outcomes even if calibration does not improve them. Detailed M2–M5 guides will be prepared only when requested.
+Skip more image-classification tutorials, custom DataLoaders, CNNs, GPU setup, RL libraries, and stretch goals unless an actual task needs them. CPU is sufficient to begin. Better transfer is a hypothesis; report measured outcomes even if calibration does not improve them. All milestone guides are now available.
 
 ## Your everyday cycle
 
@@ -61,7 +61,7 @@ Saving changes files on your Mac. A Git commit records a local checkpoint. A pus
 
 When you have meaningful progress, run `git status`, inspect `git diff`, stage the specific files you changed with `git add`, and commit with an accurate message. Then run `git push`. Do not claim a milestone is complete until you have done and checked it.
 
-Keep small experimental plots in `figures/` and final tables in `results/`. Write only your actual results in the README. No exercise implementation or results have been supplied by this guide.
+Keep small experimental plots in `figures/` and final tables in `results/`. Write only your actual results in the README. Use the saved measurements as the source for the final report.
 
 ## Your personal learning assistant
 

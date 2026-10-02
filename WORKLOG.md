@@ -121,7 +121,7 @@ Assistant comments (corrections):
 ---------------------------------------------------------------------------------
 
 ## M3 — Controller Training
-Status: In Progress
+Status: Completed
 
 During one simulated trajectory, what changes at every time step—and what does the optimizer change afterward?
 -> th, om, torque(u) changes every time step (This time the policy sets the next torque unlike M2 where the torque is fixed)
@@ -188,7 +188,44 @@ Assistant comments (corrections):
 ---------------------------------------------------------------------------------
 
 ## M4 — Real-Pendulum Evaluation
-Status: Not started
+Status: Completed
+
+Reference system is the system we use to test whether our controllers work outside their training simulators. Is like a test pendulum that both controllers must control.
+
+A controller decides what action to take based on the current state. Basically M3's trained policy network
+
+Software stand-in: real_robot.py
+-> Code that acts like a real pendulum whose physical parameters you don’t know. It lets you practice the experiment without hardware.
+
+Training simulations and testing simulations differ
+
+with open("location...") creates a file at that location
+w = overwrites
+a = write in newline
+
+Absolute error reduction = nominal error − calibrated error
+Relative reduction = (nominal error − calibrated error) / nominal error × 100
+
+
+Questions:
+1. Why must both controllers be evaluated on the same reference system with matching conditions? What is the difference between the training seed and evaluation seed?
+-> For fair comparison. Training seed is for training simulations.
+
+2. What does each entry in the errors tensor represent, and why do we average all trajectories over only the last 100 time steps? What behavior could this summary miss?
+-> cost. Want to know how well the controllers are at staying in the target position which is the goal of this project. The other might stabalize at the target position faster.
+
+
+4. Using your measured results, explain in 3–4 sentences why calibration could improve transfer, whether this run supports that idea, and what one run cannot prove.
+-> Not sure
+
+
+Assistant comments (corrections):
+- Q1: Correct: matching conditions make the comparison fair. The training seed controls random network initialization and training starting states; the evaluation seed controls randomness used during testing. A seed only controls random operations that use it; matching the target, horizon, and starting conditions also matters.
+- Q2: Each errors[i, t] is the absolute angle difference from the target, in radians, for trajectory i at step t—not the training cost. The tensor here is (256, 300); averaging its last 100 columns measures late holding performance. Your point about settling faster is correct: this summary misses early behavior and can hide occasional large errors or poor individual trajectories.
+- Q4: Calibration fits the simulator to measured reference trajectories, so the controller trains with dynamics closer to the reference system. Here, mean holding error fell from 0.036721 to 0.004281 rad: a reduction of 0.032440 rad, or 88.34%. This supports improved transfer under the tested conditions. One run cannot establish reliability across training seeds, other operating conditions, or physical hardware; our reference is a software stand-in.
+- open() creates a file only in suitable modes such as "w" or "a"; its default "r" reads an existing file. "w" overwrites, while "a" appends to the end—it does not automatically add a newline. csv.writer/DictWriter handles row formatting.
+
+---------------------------------------------------------------------------------
 
 ## M5 — Results & README
 Status: Not started

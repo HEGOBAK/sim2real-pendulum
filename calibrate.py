@@ -76,11 +76,13 @@ if __name__ == "__main__":
     print(f"Estimated damping: {b:.4f}")
 
     # Plot the loss history (./figures/m2_calibration_loss.png)
-    Path("figures").mkdir(exist_ok=True)
+    project_root = Path(__file__).resolve().parent
+    figures_dir = project_root / "figures"
+    figures_dir.mkdir(exist_ok=True)
     plt.plot(hist)
     plt.xlabel("Update number")
     plt.ylabel("Mean squared error")
     plt.title("Pendulum calibration")
     plt.tight_layout()
-    plt.savefig("figures/m2_calibration_loss.png")
+    plt.savefig(figures_dir / "m2_calibration_loss.png")
     plt.close()

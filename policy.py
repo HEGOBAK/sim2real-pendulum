@@ -44,7 +44,11 @@ def train_policy(L, b, iters=300, lr=0.01, seed=1):
         cost.backward() # Backpropagate the cost to compute gradients
         optimizer.step() # Update policy parameters based on gradients
 
+    # Store the cost history and other relevant information in the policy object for later analysis
     policy.cost_history = cost_history # Store the cost history in the policy for later analysis
-    
+    policy.L = L.item() # Store the value of L in the policy for reference
+    policy.b = b.item() # Store the value of b in the policy for reference
+    policy.seed = seed # Store the random seed used for training in the policy for reference
+
     return policy
 
