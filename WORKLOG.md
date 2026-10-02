@@ -75,7 +75,7 @@ Assistant comments (corrections):
 ---------------------------------------------------------------------------------
 
 ## M2 — System Identification
-Status: In Progress
+Status: Completed
 
 ADAM (optimizer) : an efficient, popular algorithm used to train deep learning models and update neural network weights
 
@@ -121,7 +121,71 @@ Assistant comments (corrections):
 ---------------------------------------------------------------------------------
 
 ## M3 — Controller Training
-Status: Not started
+Status: In Progress
+
+During one simulated trajectory, what changes at every time step—and what does the optimizer change afterward?
+-> th, om, torque(u) changes every time step (This time the policy sets the next torque unlike M2 where the torque is fixed)
+-> optimizer updates the parameters and the parameters control the network's output
+
+
+About UMAX & u = UMAX*tanh..... :
+raw = policy(state)          any real number, (−∞, ∞)
+      │
+tanh(raw)                    squashed into (−1, 1)
+      │
+u = UMAX · tanh(raw)         scaled into (−10, 10), the torque sent to step()
+
+About sequential tanh :
+Without the middle tanh, the two linear layers collapse into one simple rule, k₁·e + k₂·ω + c. The tanh adds curves, so the network can learn more flexible control rules. For holding 0.6 rad, the simple rule might be enough. Once train_policy works, try a single Linear(2, 1) and compare the results in your WORKLOG.
+
+We need two inputs for the network because the position itself is not enough, the network needs to know where it is going / the future.
+
+The output of the network is now a decision, a torque, not a prediction. There's no "correct torque" to compare it with, so the loss is measured on the result of that decision: where the pendulum ends up.
+
+Introduce a variable "cost" that accounts for the losses throughout a trajectory of T time, if parameters are not well optimized, mean cost for the entire trajectory will be bigger
+
+trace the cost to compute gradients then update 
+
+The loss consist of two parts :
+-> the angle difference (larger means worst)
+-> angular velocity (larger means worst)
+
+torch.rand() generates between [0, 1)
+Multiply by 0.2: [0, 0.2)
+Subtract 0.1:   [-0.1, 0.1)
+
+torch.stack combines tensors along a new axis—for example, two (32,) tensors become (32, 2) with dim=1.
+
+torch.squeeze(-1) removes the last axis if its size is 1—for example, (32, 1) becomes (32,).
+
+[:, -100:] = Select all trajectories and their last 100 time steps
+Why only the last 100 steps? We want to measure how well it holds the target after the initial movement.
+A smaller err means the controller stays closer to 0.6 radians during that final period.
+
+Questions:
+1. Why does the policy need both angle error and angular velocity? If two pendulums have the same angle but move in opposite directions, why might they need different torques?
+-> Different directions requires different directions of torque, excessive positive angular velocity requires the opposite direction of torque to go close to the target
+
+2. How can trajectory cost train the policy without correct-torque labels? Trace the connection from the network's weights to the cost, and explain which parameters stay fixed in M3.
+-> Chain rule. Trajectory cost is the average cost over time steps. Cost in one time steps depends on th-target and velocity and in which both are updated automatically from the torque. L and b stays fixed. 
+
+3. Why do we average costs across all 150 steps before one optimizer update instead of learning only from the final angle? What does the angular-velocity penalty encourage?
+-> Not sure. The penalty encourages lower velocity at target position
+
+4. Does a lower training-cost curve prove that a controller works better on the reference system? Which evaluation result should we compare, and why must the test conditions match?
+-> Not sure
+
+Assistant comments (corrections):
+- Q1: Velocity describes current motion, not the future. Opposite velocities can require different braking, but do not always require opposite torques: the target error, gravity, and damping also matter.
+- Q2: Correct that L and b stay fixed. The full connection is network weights/biases → raw action → bounded torque → simulated angles/velocities → trajectory cost. backward() computes policy gradients through this chain; Adam updates the network parameters after the trajectory.
+- In M2, the torque schedule was fixed as recorded data, but its values could change over time. In M3, torque is chosen again from the current state at every step.
+- Q3: Averaging costs across the trajectory rewards reaching the target promptly and staying near it. A final-angle-only cost could ignore large earlier errors or a fast crossing of the target at the last instant. We update once after the rollout so the gradient accounts for actions' later effects under the same policy parameters.
+- The cost squares angle error and velocity, then averages over trajectories and time; the velocity term has weight 0.01. It penalizes speed everywhere, not just at the target, while allowing useful movement when that reduces angle error.
+- Q4: No: the two training curves use different simulators, so a lower curve does not prove better transfer. Compare mean absolute target-angle error over the last 100 steps on the same reference system, using matching starting states, horizon, target, and random conditions. This isolates the controller comparison.
+- In the verified run, reference errors were about 0.0367 rad (nominal) and 0.0043 rad (calibrated), about 88% lower for calibrated. This supports better transfer for that run, not a guarantee across all conditions.
+- Shape notes are correct; the method syntax is tensor.squeeze(-1), or torch.squeeze(tensor, dim=-1). The network's raw output becomes motor torque only after the outer tanh and UMAX scaling.
+
+---------------------------------------------------------------------------------
 
 ## M4 — Real-Pendulum Evaluation
 Status: Not started

@@ -46,8 +46,8 @@ def calibrate(iters=400, lr=0.05):
         pred = rollout(th0, om0, U, L, b)
 
         # pred - Y has shape (n, T); loss has shape ()
-        loss = (pred - Y).square().mean() 
-        # loss = torch.nn.functional.mse_loss(pred, Y) # alternative way to compute MSE
+        # loss = (pred - Y).square().mean() 
+        loss = torch.nn.functional.mse_loss(pred, Y) # alternative way to compute MSE
         loss_history.append(loss.item())
        
         loss.backward()

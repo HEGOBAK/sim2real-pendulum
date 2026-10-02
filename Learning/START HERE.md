@@ -13,15 +13,15 @@ The guide's ZIP and **Original Desktop Starter** are untouched backups. Write co
 
 ## Learn one milestone at a time
 
-M0 is complete and the M1 implementation has passed review. Begin [M2 — System identification](M2.md), one checkpoint at a time. M3–M5 guides remain placeholders until requested after the preceding milestone.
+M0–M3 implementations have been reviewed. Begin [M4 — Reference-system evaluation](M4.md) as an independent assignment. The M5 guide remains a placeholder until requested.
 
 | Guide | Instruction status |
 |---|---|
 | [M0](M0.md) | Completed; practice and explanations reviewed |
 | [M1](M1.md) | Implementation reviewed; simulator checks passed |
-| [M2](M2.md) | Guide ready; calibration not implemented yet |
-| [M3](M3.md) | Waiting for your request |
-| [M4](M4.md) | Waiting for your request |
+| [M2](M2.md) | Calibration implemented and reviewed |
+| [M3](M3.md) | Controller training implemented and reviewed |
+| [M4](M4.md) | Guide ready; initial comparison verified |
 | [M5](M5.md) | Waiting for your request |
 
 ## How a small step contributes
