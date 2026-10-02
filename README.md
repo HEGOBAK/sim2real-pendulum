@@ -1,12 +1,12 @@
 # Sim2Real Pendulum
 
-I built this project to understand how PyTorch connects physics, learning, and control. The task is to move a pendulum to **0.6 radians** and hold it there.
+I built this project to understand how PyTorch connects physics, learning, and control. The task is to move a pendulum to **0.6 radians** (or any position) and hold it there.
 
 The process: **collect motion data → fit the simulator → train a controller → test it**.
 
 The reference pendulum in `real_robot.py` is software. No physical hardware is used.
 
-**Want to learn from the beginning? [Start here](START_HERE.md) → M0–M4.** My questions and corrections are in [WORKLOG.md](WORKLOG.md).
+**Want to learn from the beginning? [Start here](START_HERE.md) → M0–M4.** My process is in [WORKLOG.md](WORKLOG.md).
 
 ## How it works
 
