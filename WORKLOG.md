@@ -224,8 +224,3 @@ Assistant comments (corrections):
 - Q2: Each errors[i, t] is the absolute angle difference from the target, in radians, for trajectory i at step t—not the training cost. The tensor here is (256, 300); averaging its last 100 columns measures late holding performance. Your point about settling faster is correct: this summary misses early behavior and can hide occasional large errors or poor individual trajectories.
 - Q4: Calibration fits the simulator to measured reference trajectories, so the controller trains with dynamics closer to the reference system. Here, mean holding error fell from 0.036721 to 0.004281 rad: a reduction of 0.032440 rad, or 88.34%. This supports improved transfer under the tested conditions. One run cannot establish reliability across training seeds, other operating conditions, or physical hardware; our reference is a software stand-in.
 - open() creates a file only in suitable modes such as "w" or "a"; its default "r" reads an existing file. "w" overwrites, while "a" appends to the end—it does not automatically add a newline. csv.writer/DictWriter handles row formatting.
-
----------------------------------------------------------------------------------
-
-## M5 — Results & README
-Status: Not started
